@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ajax with Javascript</title>
+</head>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script>
+    $(document).ready(function() {
+        $('.btn_add').click(function() {
+            $('#btn-save').val("add");
+            $('#myModal').modal('show');
+        });
+    })
+</script>
+
+<body>
+    <div>
+    <h1>My First Heading</h1>
+    <a id="9988" name="btn_add" class="btn_add" data-target="#myModal">
+                                        <sup> EDIT</sup>
+                                    </a>
+    </div>
+
+    <!-- MODAL SECTION -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                    <h4 class="modal-title" id="myModalLabel">Edit</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
+                        {{ csrf_field() }}
+                        <div class="form-group error">
+                            <label for="inputName" class="col-sm-3 control-label">Name: </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control has-error" id="name" name="name" placeholder="Country of Origin" value="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-save" value="update">Edit Entry</button>
+                    <input type="hidden" id="cryptos_id" name="cryptos_id" value="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
