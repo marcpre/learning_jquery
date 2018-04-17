@@ -2,26 +2,95 @@
 <html>
 
 <head>
-    <title>Ajax with Javascript</title>
+    <title>Jquery Modal</title>
 </head>
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script>
     $(document).ready(function() {
+
+        //get base URL *********************
+        var url = $('#url').val();
+
+        //display modal form for creating new product *********************
         $('.btn_add').click(function() {
             $('#btn-save').val("add");
             $('#myModal').modal('show');
         });
-    })
+
+        //display modal form for product EDIT ***************************
+        $(document).on('click', '.open_modal', function() {
+            var product_id = $(this).val();
+            // Populate Data in Edit Modal Form
+            $.ajax({
+                type: "GET",
+                url: url + '/edit/' + product_id,
+                success: function(data) {
+                    console.log(data);
+                    $('#product_id').val(data.id);
+                    $('#name').val(data.name);
+                    $('#btn-save').val("update");
+                    $('#myModal').modal('show');
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+
+        //create new product / update existing product ***************************
+        $("#btn-save").click(function(e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            })
+
+            e.preventDefault();
+            var formData = {
+                name: $('#name').val(),
+                //price: $('#price').val(),
+            }
+            console.log("formData: " + formData);
+
+            //used to determine the http verb to use [add=POST], [update=PUT]
+            var state = $('#btn-save').val();
+            var type = "PUT"; //for creating new resource
+            var product_id = $('#product_id').val();;
+            var my_url = url + '/edit/' + product_id;
+            console.log("state: " + state)
+            console.log("product_id: " + product_id)
+            console.log("my_url: " + my_url)
+            console.log("formData: " + formData);
+            $.ajax({
+                type: type,
+                url: my_url,
+                data: formData,
+                dataType: 'json',
+                success: function(data) {
+                    console.log("data: " + data);
+                    $('#frmProducts').trigger("reset");
+                    $('#myModal').modal('hide')
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+    });
 </script>
 
 <body>
     <div>
-    <h1>My First Heading</h1>
-    <a id="9988" name="btn_add" class="btn_add" data-target="#myModal">
-                                        <sup> EDIT</sup>
-                                    </a>
+        <h1>My First Heading</h1>
+        <tr>
+            <a id="product9988" name="btn_add" class="btn_add" data-target="#myModal"><sup> EDIT - Sector</sup></a>
+            </br>
+            <a id="product9988" name="btn_add" class="btn_add" data-target="#myModal"><sup> EDIT - Country of Origin</sup></a>
+        </tr>
     </div>
 
     <!-- MODAL SECTION -->
@@ -36,7 +105,6 @@
                 </div>
                 <div class="modal-body">
                     <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
-                        {{ csrf_field() }}
                         <div class="form-group error">
                             <label for="inputName" class="col-sm-3 control-label">Name: </label>
                             <div class="col-sm-9">
@@ -47,14 +115,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="btn-save" value="update">Edit Entry</button>
-                    <input type="hidden" id="cryptos_id" name="cryptos_id" value="">
+                    <input type="hidden" id="product_id" name="product_id" value="101">
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
 

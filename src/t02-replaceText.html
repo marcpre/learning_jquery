@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jquery Replace Text</title>
+</head>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
+<script>
+    const targetButton = $(".btn.btn-primary.btn-sm.motherboard")
+    const targetButtonParent = targetButton[0].parentElement;
+    targetButtonParent.insertAdjacentHTML('beforebegin', `
+        <td>
+            <img src="" alt="" height="42" width="42">
+            <a href="">
+                Test Title
+            </a>
+        </td>    
+        `)
+
+    targetButton.attr('class', 'btn btn-danger btn-sm cpu ' + "motherboard"); // change button class to red
+
+    targetButton.text(function() {
+        return $(this).text().replace("Add", "Edit");
+    });
+</script>
+
+<body>
+
+    <table style="float: left;" class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>CPU</td>
+                <td>
+                    <button type="button" data-exists="cpu" class="btn btn-primary btn-sm cpu">
+                                            Add CPU
+                                        </button>
+                </td>
+            </tr>
+            <tr>
+                <td>Motherboard</td>
+                <td>
+                    <button type="button" data-exists="motherboard" class="btn btn-primary btn-sm motherboard">
+                                            Add Motherboard
+                                        </button>
+                </td>
+            </tr>
+            <tr>
+                <td>Graphic Card</td>
+                <td>
+                    <button type="button" data-exists="graphic-card" class="btn btn-primary btn-sm graphic-card">
+                                            Add Graphic Card
+                                        </button>
+                </td>
+            </tr>
+            <tr>
+                <td>Power Supply&nbsp;</td>
+                <td>
+                    <button type="button" data-exists="power-supply" class="btn btn-primary btn-sm power-supply">
+                                            Add Power Supply
+                                        </button>
+                </td>
+            </tr>
+            <tr>
+                <td>More Parts&nbsp;</td>
+                <td>
+                    <button type="button" data-exists="more-parts" class="btn btn-primary btn-sm more-parts">
+                                            Add More Parts
+                                        </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
