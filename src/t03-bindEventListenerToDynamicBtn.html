@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jquery Replace Text</title>
+</head>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<body>
+
+    <table id="miningTable" style="float: left;" class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>Product 2</td>
+                <td>
+                    <button type="button" data-exists="product2" class="btn btn-primary btn-sm product2">
+                                            Add Product2
+                                        </button>
+                    <button type="button" class="btn btn-dark btn-sm product2">+</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+<script>
+    $(".btn.btn-dark.btn-sm").on("click", this.clickDispatcherTable.bind(this))
+    //$(".btn.btn-primary.btn-sm").on("click", this.ourClickDispatcher.bind(this));
+    $("#miningTable").on("click", ".btn.btn-primary.btn-sm", this.ourClickDispatcher.bind(this));
+
+    function clickDispatcherTable(e) {
+        let plusButton = $(e.target).closest(".btn.btn-dark.btn-sm")
+
+        if (plusButton.hasClass("product2")) {
+            let plusButtonParent = plusButton[0].parentElement.parentElement;
+            plusButtonParent.insertAdjacentHTML('afterend', `
+    <tr>
+      <td></td>
+      <td>
+        <button type="button" data-exists="product2" class="btn btn-primary btn-sm product2">
+                                            Add Product2
+                                        </button>
+      </td>
+    </tr>
+            `)
+        }
+    }
+
+    function ourClickDispatcher(e) {
+        alert("event")
+    }
+</script>
+
+</body>
+
+</html>
